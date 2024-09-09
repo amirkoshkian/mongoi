@@ -1,0 +1,92 @@
+#!/usr/bin/python3
+from os import system
+from sys import argv
+
+############################################################################################## Start Variables
+help_command = r"""mongoi 1.0.0 - (C) 2024
+https://github.com/amirkoshkian/mongoi
+
+                                   _
+ _ __ ___   ___  _ __   __ _  ___ (_)
+| '_ ` _ \ / _ \| '_ \ / _` |/ _ \| |
+| | | | | | (_) | | | | (_| | (_) | |
+|_| |_| |_|\___/|_| |_|\__, |\___/|_|
+                       |___/
+
+Usage: sudo mongoi
+
+Options:
+    install : install MongoDB and MongoDB Compass
+    uninstall : uninstall MongoDB and MongoDB Compass Successfuly Installed"""
+mongodb_server_version = "7.0"
+mongodb_compass_version = "1.44.3"
+############################################################################################### End Variables
+
+
+############################################################################################### Start Section Functions
+######################################## Start Section Start Functions
+# Start Section Function Install
+def Install():
+    system("sudo apt install gnupg curl wget git -y")
+    system(
+        f"sudo curl -fsSL https://pgp.mongodb.com/server-{mongodb_server_version}.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-{mongodb_server_version}.gpg --dearmor"
+    )
+    system(
+        f"sudo echo 'deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-{mongodb_server_version}.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/{mongodb_server_version} multiverse' | sudo tee /etc/apt/sources.list.d/mongodb-org-{mongodb_server_version}.list"
+    )
+    system("sudo apt update -y")
+    system("sudo apt install /usr/share/mongoi/requirments-mongodb/libssl*.deb -y")
+    system("sudo apt install mongodb-org -y")
+    system("sudo systemctl start mongod")
+    system("sudo systemctl enable mongod")
+    system(
+        f"sudo wget https://downloads.mongodb.com/compass/mongodb-compass_{mongodb_compass_version}\_amd64.deb"
+    )
+    system("sudo apt install /usr/share/mongoi/requirments-mongodb/gconf2*.deb -y")
+    system("sudo apt install /usr/share/mongoi/requirments-mongodb/libgconf*.deb -y")
+    system("sudo apt install ./mongodb-compass*.deb -y")
+    system("sudo rm -r ./mongodb-compass*.deb")
+    print("MongoDB and MongoDB Compass Successfuly Installed")
+
+
+# End Section Function Install
+
+
+# Start Section Function Uninstall
+def Uninstall():
+    system("sudo apt purge gnupg mongodb-org mongodb-compass -y")
+    system(
+        f"sudo rm -r /usr/share/keyrings/mongodb-server-{mongodb_server_version}.gpg"
+    )
+    system(
+        f"sudo rm -r /etc/apt/sources.list.d/mongodb-org-{mongodb_server_version}.list"
+    )
+    system("sudo apt remove /usr/share/mongoi/requirments-mongodb/libssl*.deb -y")
+    system("sudo apt remove /usr/share/mongoi/requirments-mongodb/gconf2*.deb -y")
+    system("sudo apt remove /usr/share/mongoi/requirments-mongodb/libgconf*.deb -y")
+    print("MongoDB and MongoDB Compass Successfuly Uninstall")
+
+
+# End Section Function Uninstall
+######################################## End Section Stop Functions
+############################################################################################### End Section Functions
+
+############################################################################################### Start Section Main
+try:
+    if len(argv) == 1:
+        system("sudo clear")
+        print(help_command)
+    elif argv[1] == "install":
+        system("sudo clear")
+        Install()
+    elif argv[1] == "uninstall":
+        system("sudo clear")
+        Uninstall()
+    else:
+        system("sudo clear")
+        print(help_command)
+        print(f"""
+ERROR `{argv[1]}` is an unknown argument""")
+except Exception as e:
+    print(e)
+############################################################################################### End Section Main
