@@ -33,4 +33,4 @@ sudo mongoi
 ```
 
 # Image mongoi
-
+![Screenshot_2024-09-09_04-50-24](https://github.com/user-attachments/assets/c399fb1b-2f5e-4dc4-8d39-c785fe42f27c)
