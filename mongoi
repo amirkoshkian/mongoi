@@ -19,7 +19,7 @@ Options:
     install : install MongoDB and MongoDB Compass
     uninstall : uninstall MongoDB and MongoDB Compass Successfuly Installed"""
 mongodb_server_version = "7.0"
-mongodb_compass_version = "1.44.4"
+mongodb_compass_version = "1.44.6"
 ############################################################################################### End Variables
 
 
